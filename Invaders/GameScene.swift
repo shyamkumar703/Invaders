@@ -35,6 +35,7 @@ class GameScene: SKScene {
     let enemyDescentPerRow: CGFloat = 40
     let enemiesPerRow = 5
     let moveDuration = 0.01
+    let yMultiplierStart = 0.8
     
     // MARK: - Nodes
     let player = SKSpriteNode(imageNamed: "player")
@@ -49,6 +50,8 @@ class GameScene: SKScene {
     var pastUpdate: TimeInterval?
     var currentIndex = 0
     
+    var timer: Timer?
+    
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.black
         player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.1)
@@ -56,20 +59,27 @@ class GameScene: SKScene {
             createNodeArr(addTo: &row.nodes, directionArr: &row.directions, type: row.type, row: index)
         }
         addChild(player)
+        timer = Timer.scheduledTimer(
+            timeInterval: moveDuration * Double(enemiesPerRow) * Double(rows.count),
+            target: self,
+            selector: #selector(moveEnemies),
+            userInfo: nil,
+            repeats: true
+        )
     }
     
     func createNodeArr(addTo: inout [SKSpriteNode], directionArr: inout [EnemyDirection], type: EnemyType, row: Int) {
         for i in 0..<enemiesPerRow {
             if i == 0 {
                 let node = SKSpriteNode(imageNamed: type.rawValue)
-                node.position = CGPoint(x: size.width * 0.1, y: size.height * 0.9 - (enemyDescentPerRow * CGFloat(row) * 2))
+                node.position = CGPoint(x: size.width * 0.1, y: size.height * yMultiplierStart - (enemyDescentPerRow * CGFloat(row) * 2))
                 addChild(node)
                 addTo.append(node)
             } else {
                 if let lastNode = addTo.last {
-                    let newX = lastNode.position.x + lastNode.size.width + 8
+                    let newX = lastNode.position.x + lastNode.size.width + 10
                     let node = SKSpriteNode(imageNamed: type.rawValue)
-                    node.position = CGPoint(x: newX, y: size.height * 0.9 - (enemyDescentPerRow * CGFloat(row) * 2))
+                    node.position = CGPoint(x: newX, y: size.height * yMultiplierStart - (enemyDescentPerRow * CGFloat(row) * 2))
                     addChild(node)
                     addTo.append(node)
                 }
@@ -99,15 +109,7 @@ class GameScene: SKScene {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
     
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        if let pastUpdate = pastUpdate {
-            if currentTime - pastUpdate < moveDuration * Double(enemiesPerRow) * 4 {
-                return
-            }
-        }
-        
+    @objc func moveEnemies() {
         for row in rows {
             for currentIndex in 0..<enemiesPerRow {
                 let yellow = row.nodes[currentIndex]
@@ -125,7 +127,8 @@ class GameScene: SKScene {
                 }
             }
         }
-        
-        pastUpdate = currentTime
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
     }
 }
