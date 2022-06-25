@@ -1,88 +1,131 @@
 //
 //  GameScene.swift
 //  Invaders
-//
-//  Created by Shyam Kumar on 6/25/22.
-//
 
 import SpriteKit
 import GameplayKit
 
+enum EnemyDirection {
+    case left
+    case right
+}
+
+enum EnemyType: String {
+    case red
+    case yellow
+    case green
+}
+
+class EnemyRow {
+    var nodes: [SKSpriteNode]
+    var directions: [EnemyDirection]
+    var type: EnemyType
+    
+    init(nodes: [SKSpriteNode] = [], directions: [EnemyDirection] = [], type: EnemyType) {
+        self.nodes = nodes
+        self.directions = directions
+        self.type = type
+    }
+}
+
 class GameScene: SKScene {
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    // MARK: - Constants
+    let enemyPixelsPerUpdate: CGFloat = 10
+    let enemyDescentPerRow: CGFloat = 40
+    let enemiesPerRow = 5
+    let moveDuration = 0.01
+    
+    // MARK: - Nodes
+    let player = SKSpriteNode(imageNamed: "player")
+    var rows = [
+        EnemyRow(type: .green),
+        EnemyRow(type: .red),
+        EnemyRow(type: .yellow),
+        EnemyRow(type: .yellow)
+    ]
+    
+    // MARK: - Timing
+    var pastUpdate: TimeInterval?
+    var currentIndex = 0
     
     override func didMove(to view: SKView) {
-        
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
+        backgroundColor = SKColor.black
+        player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.1)
+        for (index, row) in rows.enumerated() {
+            createNodeArr(addTo: &row.nodes, directionArr: &row.directions, type: row.type, row: index)
         }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+        addChild(player)
+    }
+    
+    func createNodeArr(addTo: inout [SKSpriteNode], directionArr: inout [EnemyDirection], type: EnemyType, row: Int) {
+        for i in 0..<enemiesPerRow {
+            if i == 0 {
+                let node = SKSpriteNode(imageNamed: type.rawValue)
+                node.position = CGPoint(x: size.width * 0.1, y: size.height * 0.9 - (enemyDescentPerRow * CGFloat(row) * 2))
+                addChild(node)
+                addTo.append(node)
+            } else {
+                if let lastNode = addTo.last {
+                    let newX = lastNode.position.x + lastNode.size.width + 8
+                    let node = SKSpriteNode(imageNamed: type.rawValue)
+                    node.position = CGPoint(x: newX, y: size.height * 0.9 - (enemyDescentPerRow * CGFloat(row) * 2))
+                    addChild(node)
+                    addTo.append(node)
+                }
+            }
+            directionArr.append(.right)
         }
     }
     
-    
     func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
     }
     
     func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        if let pastUpdate = pastUpdate {
+            if currentTime - pastUpdate < moveDuration * Double(enemiesPerRow) * 4 {
+                return
+            }
+        }
+        
+        for row in rows {
+            for currentIndex in 0..<enemiesPerRow {
+                let yellow = row.nodes[currentIndex]
+                let enemyDirection = row.directions[currentIndex]
+                if yellow.position.x + enemyPixelsPerUpdate >= size.width - 20 && enemyDirection == .right {
+                    yellow.run(SKAction.moveTo(y: yellow.position.y - enemyDescentPerRow, duration: moveDuration))
+                    row.directions[currentIndex] = .left
+                } else if yellow.position.x - enemyPixelsPerUpdate <= 20 && enemyDirection == .left {
+                    yellow.run(SKAction.moveTo(y: yellow.position.y - enemyDescentPerRow, duration: moveDuration))
+                    row.directions[currentIndex] = .right
+                } else if enemyDirection == .right {
+                    yellow.run(SKAction.moveTo(x: yellow.position.x + enemyPixelsPerUpdate, duration: moveDuration))
+                } else {
+                    yellow.run(SKAction.moveTo(x: yellow.position.x - enemyPixelsPerUpdate, duration: moveDuration))
+                }
+            }
+        }
+        
+        pastUpdate = currentTime
     }
 }
