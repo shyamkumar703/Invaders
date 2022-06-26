@@ -54,7 +54,7 @@ class GameScene: SKScene {
     var moveDuration = 0.01
     let yMultiplierStart = 0.8
     var enemyBulletTimeToEnd = 0.4
-    var numberOfFramesPerEnemyShot = 20
+    var numberOfFramesPerEnemyShot = 60
     // MARK: - Nodes
     let player = NodeWithScore(imageNamed: "player")
     var rows = [
@@ -74,6 +74,8 @@ class GameScene: SKScene {
     
     // MARK: - Score
     var score = 0
+    var currentWave = 1
+    var isGameOver = false
     
     // MARK: - Device Motion
     let motionManager = CMMotionManager()
@@ -197,23 +199,22 @@ class GameScene: SKScene {
         node.run(SKAction.sequence([SKAction.moveTo(y: size.height * 0.1, duration: 1), SKAction.removeFromParent()]))
     }
     
-    func touchDown(atPoint pos : CGPoint) {
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    func showNewWaveLabel() {
+        currentWave += 1
+        let waveLabel = SKLabelNode(fontNamed: "Public Pixel")
+        waveLabel.fontColor = .white
+        waveLabel.fontSize = 30
+        waveLabel.position = CGPoint(x: frame.midX, y: frame.midY)
+        waveLabel.text = "WAVE<\(currentWave)>"
+        self.addChild(waveLabel)
+        waveLabel.run(SKAction.sequence([SKAction.wait(forDuration: 2), SKAction.removeFromParent(), SKAction.run(respawnEnemiesAndIncreaseSpeed)]))
+
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        createAndLaunchBullet(startPoint: CGPoint(x: player.position.x, y: player.position.y + player.size.height / 2))
+        if !isGameOver {
+            createAndLaunchBullet(startPoint: CGPoint(x: player.position.x, y: player.position.y + player.size.height / 2))
+        }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -248,7 +249,8 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         if let data = motionManager.accelerometerData,
-           fabs(data.acceleration.x) > 0.2 {
+           fabs(data.acceleration.x) > 0.2,
+           !isGameOver {
             player.physicsBody?.applyForce(CGVector(dx: 40 * CGFloat(data.acceleration.x), dy: 0))
         }
 
@@ -274,7 +276,28 @@ class GameScene: SKScene {
     }
     
     func enemyBulletDidHitPlayer(bullet: SKShapeNode, player: NodeWithScore) {
-        print("GAME OVER!")
+        isGameOver = true
+        bullet.removeFromParent()
+        timer?.invalidate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            player.removeFromParent()
+            self.removeAllEnemies()
+        }
+//        player.run(SKAction.sequence([SKAction.run(removeAllEnemies), SKAction.wait(forDuration: 0.5), SKAction.removeFromParent()]))
+    }
+    
+    func removeAllEnemies() {
+        for row in rows {
+            for node in row.nodes {
+                if node.parent != nil {
+                    node.removeFromParent()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.removeAllEnemies()
+                    }
+                    return
+                }
+            }
+        }
     }
     
     // MARK: - Respawn enemies (on round conclusion)
@@ -309,7 +332,7 @@ class GameScene: SKScene {
                 }
             }
         }
-        respawnEnemiesAndIncreaseSpeed()
+        showNewWaveLabel()
     }
 }
 
