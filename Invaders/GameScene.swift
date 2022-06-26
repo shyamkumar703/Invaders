@@ -5,6 +5,10 @@
 //  Created by Shyam Kumar on 6/25/22.
 //
 
+/*
+ Start should be 0.1 * height + 533.6 (iPhone 8 height)
+ Width start should be 37.5, end at 355
+ */
 
 import CoreMotion
 import SpriteKit
@@ -51,11 +55,16 @@ class GameScene: SKScene {
     let enemyPixelsPerUpdate: CGFloat = 10
     let enemyDescentPerRow: CGFloat = 40
     let enemiesPerRow = 7
-    let yMultiplierStart = 0.8
+    var yMultiplierStart = 0.8
     let playAgainButtonName = "playAgainButton"
+    let xStart: CGFloat = 37.5
+    let xEnd: CGFloat = 355
     var moveDuration = 0.01
     var enemyBulletTimeToEnd = 0.4
     var numberOfFramesPerEnemyShot = 60
+    var isNotch: Bool {
+       return (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) > 0
+    }
     // MARK: - Nodes
     let player = NodeWithScore(imageNamed: "player")
     var rows = [
@@ -84,8 +93,9 @@ class GameScene: SKScene {
     let motionManager = CMMotionManager()
     
     override func didMove(to view: SKView) {
+        yMultiplierStart = (0.1 * frame.height + 533.6) / frame.height
         backgroundColor = SKColor.black
-        player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.1)
+        player.position = CGPoint(x: xStart, y: size.height * 0.1)
         addPlayerBitMaskTo(node: player)
         for (index, row) in rows.enumerated() {
             createNodeArr(addTo: &row.nodes, directionArr: &row.directions, type: row.type, row: index, score: row.score)
@@ -103,7 +113,7 @@ class GameScene: SKScene {
         physicsWorld.contactDelegate = self
         
         motionManager.startAccelerometerUpdates()
-        self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: xStart, y: frame.midY, width: xEnd - xStart, height: frame.height))
         self.physicsBody?.categoryBitMask = PhysicsCategory.wall
         self.physicsBody?.contactTestBitMask = PhysicsCategory.player
         self.physicsBody?.collisionBitMask = PhysicsCategory.player
@@ -111,17 +121,16 @@ class GameScene: SKScene {
         scoreLabel = SKLabelNode(fontNamed: "Public Pixel")
         scoreLabel.fontColor = .white
         scoreLabel.fontSize = 15
-        scoreLabel.position = CGPoint(x: size.width / 2, y: size.height * 0.9)
+        scoreLabel.position = CGPoint(x: size.width / 2, y: size.height * (isNotch ? 0.9 : 0.95))
         scoreLabel.text = "SCORE<\(score)>"
         self.addChild(scoreLabel)
-
     }
     
     func createNodeArr(addTo: inout [NodeWithScore], directionArr: inout [EnemyDirection], type: EnemyType, row: Int, score: Int) {
         for i in 0..<enemiesPerRow {
             if i == 0 {
                 let node = NodeWithScore(imageNamed: type.rawValue)
-                node.position = CGPoint(x: size.width * 0.1, y: size.height * yMultiplierStart - (enemyDescentPerRow * CGFloat(row) * 2))
+                node.position = CGPoint(x: xStart, y: size.height * yMultiplierStart - (enemyDescentPerRow * CGFloat(row) * 2))
                 addEnemyBitMaskTo(node: node)
                 node.scoreOnCollision = score
                 addChild(node)
@@ -145,7 +154,7 @@ class GameScene: SKScene {
         node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
         node.physicsBody?.isDynamic = true
         node.physicsBody?.categoryBitMask = PhysicsCategory.player
-        node.physicsBody?.contactTestBitMask = PhysicsCategory.enemyBullet
+        node.physicsBody?.contactTestBitMask = PhysicsCategory.enemyBullet | PhysicsCategory.enemy
         node.physicsBody?.collisionBitMask = PhysicsCategory.wall
         node.physicsBody?.mass = 0.2
         node.physicsBody?.affectedByGravity = false
@@ -155,7 +164,7 @@ class GameScene: SKScene {
         node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
         node.physicsBody?.isDynamic = true
         node.physicsBody?.categoryBitMask = PhysicsCategory.enemy
-        node.physicsBody?.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.enemyBullet
+        node.physicsBody?.contactTestBitMask = PhysicsCategory.bullet | PhysicsCategory.enemyBullet | PhysicsCategory.player
         node.physicsBody?.collisionBitMask = PhysicsCategory.none
     }
     
@@ -258,10 +267,10 @@ class GameScene: SKScene {
                 let yellow = row.nodes[currentIndex]
                 if yellow.parent == nil { continue }
                 let enemyDirection = row.directions[currentIndex]
-                if yellow.position.x + enemyPixelsPerUpdate >= size.width - 20 && enemyDirection == .right {
+                if yellow.position.x + enemyPixelsPerUpdate >= xEnd && enemyDirection == .right {
                     yellow.run(SKAction.moveTo(y: yellow.position.y - enemyDescentPerRow, duration: moveDuration))
                     row.directions[currentIndex] = .left
-                } else if yellow.position.x - enemyPixelsPerUpdate <= 20 && enemyDirection == .left {
+                } else if yellow.position.x - enemyPixelsPerUpdate <= xStart && enemyDirection == .left {
                     yellow.run(SKAction.moveTo(y: yellow.position.y - enemyDescentPerRow, duration: moveDuration))
                     row.directions[currentIndex] = .right
                 } else if enemyDirection == .right {
@@ -316,12 +325,12 @@ class GameScene: SKScene {
         scoreLabel.text = "SCORE<\(score)>"
     }
     
-    func enemyBulletDidHitPlayer(bullet: SKShapeNode, player: NodeWithScore) {
+    func enemyBulletDidHitPlayer(bullet: SKShapeNode? = nil, player: NodeWithScore) {
         if !checkForRoundCompletion() {
             removeAllEnemyBullets()
             player.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             isGameOver = true
-            bullet.removeFromParent()
+            if let bullet = bullet { bullet.removeFromParent() }
             timer?.invalidate()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
                 player.run(SKAction.sequence([
@@ -406,9 +415,11 @@ class GameScene: SKScene {
             createNodeArr(addTo: &row.nodes, directionArr: &row.directions, type: row.type, row: index, score: row.score)
         }
         
-        player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.1)
+        player.position = CGPoint(x: xStart, y: size.height * 0.1)
         player.isHidden = false
         addChild(player)
+        // Reset score label
+        scoreLabel.text = "SCORE<\(score)>"
         // Reset timer
         timer?.invalidate()
         timer = Timer.scheduledTimer(
@@ -479,6 +490,14 @@ extension GameScene: SKPhysicsContactDelegate {
                 bullet.removeFromParent()
                 enemyBullet.removeFromParent()
                 UIImpactFeedbackGenerator().impactOccurred(intensity: 0.5)
+            }
+        }
+        
+        if ((firstBody.categoryBitMask & PhysicsCategory.enemy != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.player != 0)) {
+            if let player = secondBody.node as? NodeWithScore {
+                UIImpactFeedbackGenerator().impactOccurred(intensity: 1)
+                enemyBulletDidHitPlayer(player: player)
             }
         }
     }
