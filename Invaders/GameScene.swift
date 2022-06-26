@@ -265,6 +265,7 @@ class GameScene: SKScene {
         for row in rows {
             for currentIndex in 0..<enemiesPerRow {
                 let yellow = row.nodes[currentIndex]
+                if yellow.isHit { continue }
                 if yellow.parent == nil { continue }
                 let enemyDirection = row.directions[currentIndex]
                 if yellow.position.x + enemyPixelsPerUpdate >= xEnd && enemyDirection == .right {
@@ -319,8 +320,19 @@ class GameScene: SKScene {
     
     // MARK: - Handle collision
     func bulletDidHitEnemy(bullet: SKShapeNode, enemy: NodeWithScore) {
+        enemy.isHit = true
         bullet.removeFromParent()
-        enemy.removeFromParent()
+        enemy.run(
+            SKAction.sequence(
+                [
+                    SKAction.scale(by: 0, duration: 0.1),
+                    SKAction.removeFromParent(),
+                    SKAction.run { [self] in
+                        if checkForRoundCompletion() {
+                            showNewWaveLabel()
+                        }
+                    }
+                ]))
         score += enemy.scoreOnCollision
         scoreLabel.text = "SCORE<\(score)>"
     }
@@ -461,9 +473,6 @@ extension GameScene: SKPhysicsContactDelegate {
                let bullet = secondBody.node as? SKShapeNode {
                 bulletDidHitEnemy(bullet: bullet, enemy: enemy)
                 UIImpactFeedbackGenerator().impactOccurred(intensity: 1)
-                if checkForRoundCompletion() {
-                    showNewWaveLabel()
-                }
             }
         }
         
@@ -505,4 +514,5 @@ extension GameScene: SKPhysicsContactDelegate {
 
 class NodeWithScore: SKSpriteNode {
     var scoreOnCollision: Int = 0
+    var isHit: Bool = false
 }
