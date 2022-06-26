@@ -113,7 +113,7 @@ class GameScene: SKScene {
         physicsWorld.contactDelegate = self
         
         motionManager.startAccelerometerUpdates()
-        self.physicsBody = SKPhysicsBody(edgeLoopFrom: CGRect(x: xStart, y: frame.midY, width: xEnd - xStart, height: frame.height))
+        self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         self.physicsBody?.categoryBitMask = PhysicsCategory.wall
         self.physicsBody?.contactTestBitMask = PhysicsCategory.player
         self.physicsBody?.collisionBitMask = PhysicsCategory.player
