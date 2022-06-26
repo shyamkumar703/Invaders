@@ -17,6 +17,7 @@
 		01D9E8172867789300620289 /* InvadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8162867789300620289 /* InvadersTests.swift */; };
 		01D9E8212867789300620289 /* InvadersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8202867789300620289 /* InvadersUITests.swift */; };
 		01D9E8232867789300620289 /* InvadersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8222867789300620289 /* InvadersUITestsLaunchTests.swift */; };
+		01D9E8302867DBB400620289 /* Pixel.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01D9E82F2867DBB400620289 /* Pixel.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		01D9E81C2867789300620289 /* InvadersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InvadersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		01D9E8202867789300620289 /* InvadersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvadersUITests.swift; sourceTree = "<group>"; };
 		01D9E8222867789300620289 /* InvadersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvadersUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		01D9E82F2867DBB400620289 /* Pixel.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pixel.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				01D9E8062867789200620289 /* Main.storyboard */,
 				01D9E8092867789300620289 /* Assets.xcassets */,
 				01D9E80B2867789300620289 /* LaunchScreen.storyboard */,
+				01D9E82F2867DBB400620289 /* Pixel.ttf */,
 			);
 			path = Invaders;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01D9E8082867789200620289 /* Main.storyboard in Resources */,
+				01D9E8302867DBB400620289 /* Pixel.ttf in Resources */,
 				01D9E80A2867789300620289 /* Assets.xcassets in Resources */,
 				01D9E80D2867789300620289 /* LaunchScreen.storyboard in Resources */,
 				01D9E8012867789200620289 /* Actions.sks in Resources */,
@@ -441,12 +445,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A6LGJBXTJ7;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Invaders/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -469,12 +475,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A6LGJBXTJ7;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Invaders/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
