@@ -51,8 +51,9 @@ class GameScene: SKScene {
     let enemyPixelsPerUpdate: CGFloat = 10
     let enemyDescentPerRow: CGFloat = 40
     let enemiesPerRow = 7
-    var moveDuration = 0.01
     let yMultiplierStart = 0.8
+    let playAgainButtonName = "playAgainButton"
+    var moveDuration = 0.01
     var enemyBulletTimeToEnd = 0.4
     var numberOfFramesPerEnemyShot = 60
     // MARK: - Nodes
@@ -65,6 +66,8 @@ class GameScene: SKScene {
     ]
     var currUserBullet: SKShapeNode?
     var scoreLabel = SKLabelNode()
+    var gameOverLabel = SKLabelNode()
+    var playAgainButton = SKLabelNode()
     
     // MARK: - Timing
     var pastUpdate: TimeInterval?
@@ -211,9 +214,38 @@ class GameScene: SKScene {
 
     }
     
+    func showGameOverLabel() {
+        gameOverLabel = SKLabelNode(fontNamed: "Public Pixel")
+        gameOverLabel.fontColor = .white
+        gameOverLabel.fontSize = 30
+        gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
+        gameOverLabel.text = "GAME OVER"
+        self.addChild(gameOverLabel)
+        showPlayAgainButton()
+    }
+    
+    func showPlayAgainButton() {
+        playAgainButton = SKLabelNode(fontNamed: "Public Pixel")
+        playAgainButton.fontColor = .white
+        playAgainButton.fontSize = 15
+        playAgainButton.position = CGPoint(x: gameOverLabel.frame.midX, y: gameOverLabel.frame.minY - 40)
+        playAgainButton.text = "PLAY AGAIN"
+        playAgainButton.name = playAgainButtonName
+        self.addChild(playAgainButton)
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !isGameOver {
             createAndLaunchBullet(startPoint: CGPoint(x: player.position.x, y: player.position.y + player.size.height / 2))
+        } else {
+            for touch in touches {
+                let location = touch.location(in: self)
+                let touchedNode = atPoint(location)
+                if touchedNode.name == playAgainButtonName {
+                    UIImpactFeedbackGenerator().impactOccurred(intensity: 1)
+                    resetAndRestartGame()
+                }
+            }
         }
     }
     
@@ -267,6 +299,15 @@ class GameScene: SKScene {
         return true
     }
     
+    func removeAllEnemyBullets() {
+        for node in self.children {
+            if let bitMask = node.physicsBody?.categoryBitMask,
+               bitMask & PhysicsCategory.enemyBullet != 0 {
+                node.removeFromParent()
+            }
+        }
+    }
+    
     // MARK: - Handle collision
     func bulletDidHitEnemy(bullet: SKShapeNode, enemy: NodeWithScore) {
         bullet.removeFromParent()
@@ -276,14 +317,34 @@ class GameScene: SKScene {
     }
     
     func enemyBulletDidHitPlayer(bullet: SKShapeNode, player: NodeWithScore) {
-        isGameOver = true
-        bullet.removeFromParent()
-        timer?.invalidate()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            player.removeFromParent()
-            self.removeAllEnemies()
+        if !checkForRoundCompletion() {
+            removeAllEnemyBullets()
+            player.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            isGameOver = true
+            bullet.removeFromParent()
+            timer?.invalidate()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+                player.run(SKAction.sequence([
+                    SKAction.wait(forDuration: 0.1),
+                    SKAction.repeat(
+                        SKAction.sequence(
+                            [
+                                SKAction.run(togglePlayerIsHidden),
+                                SKAction.wait(forDuration: 0.2)
+                            ]
+                        ),
+                        count: 9
+                    ),
+                    SKAction.wait(forDuration: 0.3),
+                    SKAction.run(removeAllEnemies),
+                    SKAction.removeFromParent()
+                ]))
+            }
         }
-//        player.run(SKAction.sequence([SKAction.run(removeAllEnemies), SKAction.wait(forDuration: 0.5), SKAction.removeFromParent()]))
+    }
+    
+    func togglePlayerIsHidden() {
+        player.isHidden.toggle()
     }
     
     func removeAllEnemies() {
@@ -298,6 +359,7 @@ class GameScene: SKScene {
                 }
             }
         }
+        showGameOverLabel()
     }
     
     // MARK: - Respawn enemies (on round conclusion)
@@ -324,15 +386,49 @@ class GameScene: SKScene {
         )
     }
     
-    func checkForRoundCompletion() {
+    func resetAndRestartGame() {
+        gameOverLabel.removeFromParent()
+        playAgainButton.removeFromParent()
+        // Reset constants
+        moveDuration = 0.01
+        enemyBulletTimeToEnd = 0.4
+        numberOfFramesPerEnemyShot = 60
+        currentWave = 1
+        score = 0
+        isGameOver = false
+        // Reset nodes
+        for row in rows {
+            row.directions = []
+            row.nodes = []
+        }
+        
+        for (index, row) in rows.enumerated() {
+            createNodeArr(addTo: &row.nodes, directionArr: &row.directions, type: row.type, row: index, score: row.score)
+        }
+        
+        player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.1)
+        player.isHidden = false
+        addChild(player)
+        // Reset timer
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(
+            timeInterval: moveDuration * Double(enemiesPerRow) * Double(rows.count),
+            target: self,
+            selector: #selector(moveEnemies),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    func checkForRoundCompletion() -> Bool {
         for row in rows {
             for node in row.nodes {
                 if node.parent != nil {
-                    return
+                    return false
                 }
             }
         }
-        showNewWaveLabel()
+        return true
     }
 }
 
@@ -354,7 +450,9 @@ extension GameScene: SKPhysicsContactDelegate {
                let bullet = secondBody.node as? SKShapeNode {
                 bulletDidHitEnemy(bullet: bullet, enemy: enemy)
                 UIImpactFeedbackGenerator().impactOccurred(intensity: 1)
-                checkForRoundCompletion()
+                if checkForRoundCompletion() {
+                    showNewWaveLabel()
+                }
             }
         }
         
