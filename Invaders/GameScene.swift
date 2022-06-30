@@ -291,9 +291,8 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         if let data = motionManager.accelerometerData,
-           fabs(data.acceleration.x) > 0.2,
            !isGameOver {
-            player.physicsBody?.applyForce(CGVector(dx: 40 * CGFloat(data.acceleration.x), dy: 0))
+            player.physicsBody?.applyForce(CGVector(dx: 240 * CGFloat(data.acceleration.x), dy: 0))
         }
 
     }
