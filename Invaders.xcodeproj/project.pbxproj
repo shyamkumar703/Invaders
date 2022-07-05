@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		015306082874DF4200DF3C45 /* invaders.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 015306072874DF4200DF3C45 /* invaders.mp4 */; };
 		01D9E7FD2867789200620289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E7FC2867789200620289 /* AppDelegate.swift */; };
 		01D9E8012867789200620289 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 01D9E8002867789200620289 /* Actions.sks */; };
 		01D9E8032867789200620289 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8022867789200620289 /* GameScene.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		015306072874DF4200DF3C45 /* invaders.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = invaders.mp4; sourceTree = "<group>"; };
 		01D9E7F92867789200620289 /* Invaders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Invaders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01D9E7FC2867789200620289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01D9E8002867789200620289 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		01D9E7FB2867789200620289 /* Invaders */ = {
 			isa = PBXGroup;
 			children = (
+				015306072874DF4200DF3C45 /* invaders.mp4 */,
 				01D9E7FC2867789200620289 /* AppDelegate.swift */,
 				01D9E8002867789200620289 /* Actions.sks */,
 				01D9E8022867789200620289 /* GameScene.swift */,
@@ -238,6 +241,7 @@
 				01D9E8082867789200620289 /* Main.storyboard in Resources */,
 				01D9E8302867DBB400620289 /* Pixel.ttf in Resources */,
 				01D9E80A2867789300620289 /* Assets.xcassets in Resources */,
+				015306082874DF4200DF3C45 /* invaders.mp4 in Resources */,
 				01D9E80D2867789300620289 /* LaunchScreen.storyboard in Resources */,
 				01D9E8012867789200620289 /* Actions.sks in Resources */,
 			);
@@ -457,7 +461,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.triumph.TriumphInvaders;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -487,7 +491,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.triumph.TriumphInvaders;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -92,6 +92,14 @@ class GameScene: SKScene {
     // MARK: - Device Motion
     let motionManager = CMMotionManager()
     
+    // MARK: - Delegate
+    var gameDelegate: GameDelegate?
+    
+    convenience init(size: CGSize, delegate: GameDelegate) {
+        self.init(size: size)
+        self.gameDelegate = delegate
+    }
+    
     override func didMove(to view: SKView) {
         yMultiplierStart = (0.1 * frame.height + 533.6) / frame.height
         backgroundColor = SKColor.black
@@ -158,6 +166,7 @@ class GameScene: SKScene {
         node.physicsBody?.collisionBitMask = PhysicsCategory.wall
         node.physicsBody?.mass = 0.2
         node.physicsBody?.affectedByGravity = false
+        node.physicsBody?.allowsRotation = false
     }
     
     func addEnemyBitMaskTo(node: NodeWithScore) {
@@ -230,7 +239,7 @@ class GameScene: SKScene {
         gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
         gameOverLabel.text = "GAME OVER"
         self.addChild(gameOverLabel)
-        showPlayAgainButton()
+        gameDelegate?.gameFinished()
     }
     
     func showPlayAgainButton() {
