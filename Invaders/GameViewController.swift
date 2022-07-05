@@ -8,6 +8,7 @@ import AVFoundation
 import UIKit
 import SpriteKit
 import GameplayKit
+import TriumphSDK
 
 protocol GameDelegate {
     func gameFinished()
@@ -31,8 +32,8 @@ class GameViewController: UIViewController {
         return stack
     }()
     
-    lazy var triumphButton: UIButton = {
-        let button = UIButton()
+    lazy var triumphButton: TriumphButton = {
+        let button = TriumphButton()
         let attrTitle = NSAttributedString(
             string: "TOURNAMENTS",
             attributes: [
@@ -42,7 +43,7 @@ class GameViewController: UIViewController {
         )
         button.setAttributedTitle(attrTitle, for: .normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.addTarget(self, action: #selector(tournamentsPressed), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(tournamentsPressed), for: .touchUpInside)
         return button
     }()
     

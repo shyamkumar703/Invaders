@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		015306082874DF4200DF3C45 /* invaders.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 015306072874DF4200DF3C45 /* invaders.mp4 */; };
+		01666C402874F48A00EC0A66 /* debug_GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01666C3F2874F48A00EC0A66 /* debug_GoogleService-Info.plist */; };
 		01D9E7FD2867789200620289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E7FC2867789200620289 /* AppDelegate.swift */; };
 		01D9E8012867789200620289 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 01D9E8002867789200620289 /* Actions.sks */; };
 		01D9E8032867789200620289 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8022867789200620289 /* GameScene.swift */; };
@@ -19,6 +20,7 @@
 		01D9E8212867789300620289 /* InvadersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8202867789300620289 /* InvadersUITests.swift */; };
 		01D9E8232867789300620289 /* InvadersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8222867789300620289 /* InvadersUITestsLaunchTests.swift */; };
 		01D9E8302867DBB400620289 /* Pixel.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01D9E82F2867DBB400620289 /* Pixel.ttf */; };
+		9367AFD199DAC3D1C5C7287A /* Pods_Invaders.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78E3949E3AD060025B54601 /* Pods_Invaders.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 
 /* Begin PBXFileReference section */
 		015306072874DF4200DF3C45 /* invaders.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = invaders.mp4; sourceTree = "<group>"; };
+		01666C3D2874F2C000EC0A66 /* Invaders.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Invaders.entitlements; sourceTree = "<group>"; };
+		01666C3F2874F48A00EC0A66 /* debug_GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "debug_GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01D9E7F92867789200620289 /* Invaders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Invaders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01D9E7FC2867789200620289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01D9E8002867789200620289 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -54,6 +58,9 @@
 		01D9E8202867789300620289 /* InvadersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvadersUITests.swift; sourceTree = "<group>"; };
 		01D9E8222867789300620289 /* InvadersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvadersUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		01D9E82F2867DBB400620289 /* Pixel.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pixel.ttf; sourceTree = "<group>"; };
+		4FBE35C77B9FEB383B97A4A9 /* Pods-Invaders.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Invaders.release.xcconfig"; path = "Target Support Files/Pods-Invaders/Pods-Invaders.release.xcconfig"; sourceTree = "<group>"; };
+		A78E3949E3AD060025B54601 /* Pods_Invaders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Invaders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F32752C4F09185DE961A6092 /* Pods-Invaders.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Invaders.debug.xcconfig"; path = "Target Support Files/Pods-Invaders/Pods-Invaders.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9367AFD199DAC3D1C5C7287A /* Pods_Invaders.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +89,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01666C3E2874F47E00EC0A66 /* Google_Properties */ = {
+			isa = PBXGroup;
+			children = (
+				01666C3F2874F48A00EC0A66 /* debug_GoogleService-Info.plist */,
+			);
+			path = Google_Properties;
+			sourceTree = "<group>";
+		};
 		01D9E7F02867789200620289 = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +104,8 @@
 				01D9E8152867789300620289 /* InvadersTests */,
 				01D9E81F2867789300620289 /* InvadersUITests */,
 				01D9E7FA2867789200620289 /* Products */,
+				6A03BCA45BD643C45BFFEF71 /* Pods */,
+				8D30473A67310E7D4BFBD1C2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,6 +122,8 @@
 		01D9E7FB2867789200620289 /* Invaders */ = {
 			isa = PBXGroup;
 			children = (
+				01666C3E2874F47E00EC0A66 /* Google_Properties */,
+				01666C3D2874F2C000EC0A66 /* Invaders.entitlements */,
 				015306072874DF4200DF3C45 /* invaders.mp4 */,
 				01D9E7FC2867789200620289 /* AppDelegate.swift */,
 				01D9E8002867789200620289 /* Actions.sks */,
@@ -134,6 +154,23 @@
 			path = InvadersUITests;
 			sourceTree = "<group>";
 		};
+		6A03BCA45BD643C45BFFEF71 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F32752C4F09185DE961A6092 /* Pods-Invaders.debug.xcconfig */,
+				4FBE35C77B9FEB383B97A4A9 /* Pods-Invaders.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		8D30473A67310E7D4BFBD1C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A78E3949E3AD060025B54601 /* Pods_Invaders.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -141,9 +178,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 01D9E8262867789300620289 /* Build configuration list for PBXNativeTarget "Invaders" */;
 			buildPhases = (
+				7F607FD6B117523086C8406D /* [CP] Check Pods Manifest.lock */,
 				01D9E7F52867789200620289 /* Sources */,
 				01D9E7F62867789200620289 /* Frameworks */,
+				01666C412874F52400EC0A66 /* ShellScript */,
 				01D9E7F72867789200620289 /* Resources */,
+				CD0C2AABDD069BB4CC9B5B4E /* [CP] Embed Pods Frameworks */,
+				9C7180AB33B73524E948DD0E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -242,6 +283,7 @@
 				01D9E8302867DBB400620289 /* Pixel.ttf in Resources */,
 				01D9E80A2867789300620289 /* Assets.xcassets in Resources */,
 				015306082874DF4200DF3C45 /* invaders.mp4 in Resources */,
+				01666C402874F48A00EC0A66 /* debug_GoogleService-Info.plist in Resources */,
 				01D9E80D2867789300620289 /* LaunchScreen.storyboard in Resources */,
 				01D9E8012867789200620289 /* Actions.sks in Resources */,
 			);
@@ -262,6 +304,82 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		01666C412874F52400EC0A66 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Debug\" ]; then\nGOOGLE_SERVICE_INFO_PLIST_FROM=\"${PROJECT_DIR}/Google_Properties/debug_GoogleService-Info.plist\"\nBUILD_APP_DIR=\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}\"\nGOOGLE_SERVICE_INFO_PLIST_TO=\"${BUILD_APP_DIR}/GoogleService-Info.plist\"\ncp \"${GOOGLE_SERVICE_INFO_PLIST_FROM}\" \"${GOOGLE_SERVICE_INFO_PLIST_TO}\" \nfi\nif [ \"${CONFIGURATION}\" = \"Staging\" ]; then\nGOOGLE_SERVICE_INFO_PLIST_FROM=\"${PROJECT_DIR}/Google_Properties/dev_GoogleService-Info.plist\"\nBUILD_APP_DIR=\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}\"\nGOOGLE_SERVICE_INFO_PLIST_TO=\"${BUILD_APP_DIR}/GoogleService-Info.plist\"\ncp \"${GOOGLE_SERVICE_INFO_PLIST_FROM}\" \"${GOOGLE_SERVICE_INFO_PLIST_TO}\" \nfi\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\nGOOGLE_SERVICE_INFO_PLIST_FROM=\"${PROJECT_DIR}/Google_Properties/prod_GoogleService-Info.plist\"\nBUILD_APP_DIR=\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}\"\nGOOGLE_SERVICE_INFO_PLIST_TO=\"${BUILD_APP_DIR}/GoogleService-Info.plist\"\ncp \"${GOOGLE_SERVICE_INFO_PLIST_FROM}\" \"${GOOGLE_SERVICE_INFO_PLIST_TO}\" \nfi\n";
+		};
+		7F607FD6B117523086C8406D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Invaders-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9C7180AB33B73524E948DD0E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Invaders/Pods-Invaders-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Invaders/Pods-Invaders-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Invaders/Pods-Invaders-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CD0C2AABDD069BB4CC9B5B4E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Invaders/Pods-Invaders-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Invaders/Pods-Invaders-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Invaders/Pods-Invaders-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		01D9E7F52867789200620289 /* Sources */ = {
@@ -442,14 +560,20 @@
 		};
 		01D9E8272867789300620289 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F32752C4F09185DE961A6092 /* Pods-Invaders.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Invaders/Invaders.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZS8UBT2BP7;
+				DEVELOPMENT_TEAM = PM79C3BXFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Invaders/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera usage by our app to take a profile picture.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need to ensure you are in one of our operating states. Your location data only used on device, and cannot be seen by Triumph.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to ensure you are in one of our operating states. Your location data only used on device, and cannot be seen by Triumph.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please give us access to your photo library so we can identify you.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -462,7 +586,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.triumph.TriumphInvaders;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shyamkumar.TriumphInvaders;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -472,14 +596,20 @@
 		};
 		01D9E8282867789300620289 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4FBE35C77B9FEB383B97A4A9 /* Pods-Invaders.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Invaders/Invaders.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZS8UBT2BP7;
+				DEVELOPMENT_TEAM = PM79C3BXFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Invaders/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera usage by our app to take a profile picture.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We need to ensure you are in one of our operating states. Your location data only used on device, and cannot be seen by Triumph.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need to ensure you are in one of our operating states. Your location data only used on device, and cannot be seen by Triumph.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please give us access to your photo library so we can identify you.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -492,7 +622,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.triumph.TriumphInvaders;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shyamkumar.TriumphInvaders;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

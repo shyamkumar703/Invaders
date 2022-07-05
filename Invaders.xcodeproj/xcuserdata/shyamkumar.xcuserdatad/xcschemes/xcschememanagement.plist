@@ -4,10 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Invaders-Debug.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>59</integer>
+		</dict>
 		<key>Invaders.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>58</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>01D9E7F82867789200620289</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>01D9E8112867789300620289</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>01D9E81B2867789300620289</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
