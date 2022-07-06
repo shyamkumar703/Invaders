@@ -10,6 +10,7 @@
  Width start should be 37.5, end at 355
  */
 
+import TriumphSDK
 import CoreMotion
 import SpriteKit
 import GameplayKit
@@ -92,12 +93,24 @@ class GameScene: SKScene {
     // MARK: - Device Motion
     let motionManager = CMMotionManager()
     
-    // MARK: - Delegate
+    // MARK: - Triumph Integration
     var gameDelegate: GameDelegate?
+    var rng: TriumphRNG?
+    var gameInterface: TriumphGameInterface?
+    var mode: GameMode?
     
-    convenience init(size: CGSize, delegate: GameDelegate) {
+    convenience init(
+        size: CGSize,
+        delegate: GameDelegate,
+        rng: TriumphRNG? = nil,
+        gameInterface: TriumphGameInterface? = nil,
+        mode: GameMode = .practice
+    ) {
         self.init(size: size)
         self.gameDelegate = delegate
+        self.rng = rng
+        self.gameInterface = gameInterface
+        self.mode = mode
     }
     
     override func didMove(to view: SKView) {
@@ -130,7 +143,12 @@ class GameScene: SKScene {
         scoreLabel.fontColor = .white
         scoreLabel.fontSize = 15
         scoreLabel.position = CGPoint(x: size.width / 2, y: size.height * (isNotch ? 0.9 : 0.95))
-        scoreLabel.text = "SCORE<\(score)>"
+        if let gameInterface = gameInterface,
+           gameInterface.blitzMode == true {
+            scoreLabel.text = "SCORE<0¢>"
+        } else {
+            scoreLabel.text = "SCORE<\(score)>"
+        }
         self.addChild(scoreLabel)
     }
     
@@ -239,6 +257,9 @@ class GameScene: SKScene {
         gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
         gameOverLabel.text = "GAME OVER"
         self.addChild(gameOverLabel)
+        if mode == .tournament {
+            TriumphSDK.onGameOverInt(with: score, showGameOverViewController: true)
+        }
         gameDelegate?.gameFinished()
     }
     
@@ -289,7 +310,8 @@ class GameScene: SKScene {
                     yellow.run(SKAction.moveTo(x: yellow.position.x - enemyPixelsPerUpdate, duration: moveDuration))
                 }
                 if isInBottomRow(node: yellow) {
-                    let randomInt = Int.random(in: 1..<numberOfFramesPerEnemyShot)
+                    
+                    let randomInt = rng?.getNextInt(minimumInclusive: 1, maximumInclusive: numberOfFramesPerEnemyShot) ?? Int.random(in: 1..<numberOfFramesPerEnemyShot)
                     if randomInt == 2 {
                         createAndLaunchEnemyBullet(startPoint: CGPoint(x: yellow.position.x, y: yellow.position.y - yellow.size.height / 2 - 5))
                     }
@@ -342,7 +364,12 @@ class GameScene: SKScene {
                     }
                 ]))
         score += enemy.scoreOnCollision
-        scoreLabel.text = "SCORE<\(score)>"
+        if let gameInterface = gameInterface,
+           gameInterface.blitzMode == true {
+            scoreLabel.text = "SCORE<\(TriumphGameInterface.getBlitzPayoutForScoreInt(totalScore: score))>"
+        } else {
+            scoreLabel.text = "SCORE<\(score)>"
+        }
     }
     
     func enemyBulletDidHitPlayer(bullet: SKShapeNode? = nil, player: NodeWithScore) {

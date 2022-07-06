@@ -10,12 +10,17 @@ import SpriteKit
 import GameplayKit
 import TriumphSDK
 
+enum GameMode {
+    case practice
+    case tournament
+}
+
 protocol GameDelegate {
     func gameFinished()
 }
 
 class GameViewController: UIViewController {
-    let gameView = SKView(frame: UIScreen.main.bounds)
+    var gameView = SKView(frame: UIScreen.main.bounds)
     lazy var queuePlayer = AVQueuePlayer()
     var playerLooper: AVPlayerLooper?
     var playerLayer: AVPlayerLayer?
@@ -64,6 +69,7 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        TriumphSDK.delegate = self
         setupVideo()
         addVideoObservers()
         setupView()
@@ -135,8 +141,8 @@ class GameViewController: UIViewController {
 
 // MARK: - Game lifecycle
 extension GameViewController {
-    func startGame() {
-        let scene = GameScene(size: view.bounds.size, delegate: self)
+    func startGame(rng: TriumphRNG? = nil, gameInterface: TriumphGameInterface? = nil, mode: GameMode = .practice) {
+        let scene = GameScene(size: view.bounds.size, delegate: self, rng: rng, gameInterface: gameInterface, mode: mode)
         gameView.showsFPS = false
         gameView.showsNodeCount = false
         gameView.ignoresSiblingOrder = true
@@ -203,14 +209,52 @@ extension GameViewController: GameDelegate {
                 self.practiceButton.alpha = 1
                 self.gameView.alpha = 0
                 guard let playerLayer = self.playerLayer else { return }
-//                self.view.layer.addSublayer(playerLayer)
                 self.view.layer.insertSublayer(playerLayer, at: 0)
             },
             completion: { _ in
                 self.queuePlayer.play()
-                
+                self.gameView.removeFromSuperview()
+                self.gameView = SKView(frame: UIScreen.main.bounds)
+                self.gameView.alpha = 0
+                self.view.addSubview(self.gameView)
             }
         )
     }
+}
+
+// MARK: - TriumphSDK Delegate
+extension GameViewController: TriumphSDKDelegate {
+    func triumphPracticeDidStart() {
+        startGame()
+    }
+    
+    func triumphGameDidStart(rngGenerator: TriumphRNG) {
+        startGame(rng: rngGenerator, gameInterface: TriumphGameInterface(), mode: .tournament)
+    }
+    
+    func triumphViewControllerWillPresent() {
+    }
+    
+    func triumphViewControllerDidPresented() {
+    }
+    
+    func triumphViewControllerDidDismissed() {
+    }
+    
+    func triumphViewControllerWillDismiss() {
+    }
+    
+    func triumphRequestsDidPause(timeLeft: Int) {
+    }
+    
+    func triumphRequestsDidGameOver() {
+        gameFinished()
+    }
+    
+    func triumphRequestsResetGame() {
+        gameFinished()
+    }
+    
+    
 }
    
