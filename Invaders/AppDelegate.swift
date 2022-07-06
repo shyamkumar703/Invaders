@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         center.delegate = self
         TriumphSDK.configure(gameId: "brickbreaker")
         TriumphSDK.scoreDecimalPoints = .zero
+        TriumphSDK.merchantId = "merchant.com.shyamkumar.test"
         return true
     }
 
