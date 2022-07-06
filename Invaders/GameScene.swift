@@ -5,15 +5,17 @@
 //  Created by Shyam Kumar on 6/25/22.
 //
 
-/*
- Start should be 0.1 * height + 533.6 (iPhone 8 height)
- Width start should be 37.5, end at 355
- */
-
 import TriumphSDK
 import CoreMotion
 import SpriteKit
 import GameplayKit
+
+let localStorageTutorialKey: String = "hasSeenTutorial"
+
+enum TutorialStep {
+    case tiltToMove
+    case tapToShoot
+}
 
 struct PhysicsCategory {
     static let none: UInt32 = 0
@@ -99,18 +101,27 @@ class GameScene: SKScene {
     var gameInterface: TriumphGameInterface?
     var mode: GameMode?
     
+    // MARK: - Tutorial Mode
+    var isInTutorialMode: Bool = false
+    var currTutorialStep: TutorialStep?
+    
+    var tiltInstructionLabel = SKLabelNode(fontNamed: "Public Pixel")
+    var tapToShootLabel = SKLabelNode(fontNamed: "Public Pixel")
+    
     convenience init(
         size: CGSize,
         delegate: GameDelegate,
         rng: TriumphRNG? = nil,
         gameInterface: TriumphGameInterface? = nil,
-        mode: GameMode = .practice
+        mode: GameMode = .practice,
+        shouldShowTutorial: Bool = false
     ) {
         self.init(size: size)
         self.gameDelegate = delegate
         self.rng = rng
         self.gameInterface = gameInterface
         self.mode = mode
+        self.isInTutorialMode = shouldShowTutorial
     }
     
     override func didMove(to view: SKView) {
@@ -118,9 +129,6 @@ class GameScene: SKScene {
         backgroundColor = SKColor.black
         player.position = CGPoint(x: xStart, y: size.height * 0.1)
         addPlayerBitMaskTo(node: player)
-        for (index, row) in rows.enumerated() {
-            createNodeArr(addTo: &row.nodes, directionArr: &row.directions, type: row.type, row: index, score: row.score)
-        }
         addChild(player)
         timer = Timer.scheduledTimer(
             timeInterval: moveDuration * Double(enemiesPerRow) * Double(rows.count),
@@ -150,6 +158,14 @@ class GameScene: SKScene {
             scoreLabel.text = "SCORE<\(score)>"
         }
         self.addChild(scoreLabel)
+        
+        if !isInTutorialMode {
+            for (index, row) in rows.enumerated() {
+                createNodeArr(addTo: &row.nodes, directionArr: &row.directions, type: row.type, row: index, score: row.score)
+            }
+        } else {
+            showTutorial()
+        }
     }
     
     func createNodeArr(addTo: inout [NodeWithScore], directionArr: inout [EnemyDirection], type: EnemyType, row: Int, score: Int) {
@@ -225,7 +241,15 @@ class GameScene: SKScene {
         addBulletBitMaskTo(node: node)
         addChild(node)
         currUserBullet = node
-        node.run(SKAction.sequence([SKAction.moveTo(y: size.height * yMultiplierStart, duration: 1), SKAction.removeFromParent()]))
+        node.run(
+            SKAction.sequence([
+                SKAction.moveTo(y: size.height * yMultiplierStart, duration: 1),
+                SKAction.removeFromParent(),
+                SKAction.run {
+                    self.endTutorial()
+                }
+            ])
+        )
     }
     
     func createAndLaunchEnemyBullet(startPoint: CGPoint) {
@@ -292,6 +316,7 @@ class GameScene: SKScene {
     }
     
     @objc func moveEnemies() {
+        guard !isInTutorialMode else { return }
         for row in rows {
             for currentIndex in 0..<enemiesPerRow {
                 let yellow = row.nodes[currentIndex]
@@ -324,6 +349,11 @@ class GameScene: SKScene {
         if let data = motionManager.accelerometerData,
            !isGameOver {
             player.physicsBody?.applyForce(CGVector(dx: 240 * CGFloat(data.acceleration.x), dy: 0))
+            if isInTutorialMode && currTutorialStep == .tiltToMove && data.acceleration.x > 0.1 {
+                DispatchQueue.main.async {
+                    self.showTapToShoot()
+                }
+            }
         }
 
     }
@@ -350,6 +380,7 @@ class GameScene: SKScene {
     
     // MARK: - Handle collision
     func bulletDidHitEnemy(bullet: SKShapeNode, enemy: NodeWithScore) {
+        guard !isInTutorialMode else { return }
         enemy.isHit = true
         bullet.removeFromParent()
         enemy.run(
@@ -546,6 +577,47 @@ extension GameScene: SKPhysicsContactDelegate {
         }
     }
 }
+
+extension GameScene {
+    func showTutorial() {
+        showTiltToMove()
+    }
+    
+    func showTiltToMove() {
+        tiltInstructionLabel.text = "TILT TO MOVE"
+        tiltInstructionLabel.fontSize = 20
+        tiltInstructionLabel.fontColor = .white
+        tiltInstructionLabel.position = CGPoint(x: frame.midX, y: frame.midY)
+        addChild(tiltInstructionLabel)
+        currTutorialStep = .tiltToMove
+    }
+    
+    func showTapToShoot() {
+        guard tapToShootLabel.parent == nil else { return }
+        tiltInstructionLabel.isHidden = true
+        tiltInstructionLabel.removeFromParent()
+        tapToShootLabel.text = "TAP TO SHOOT"
+        tapToShootLabel.fontSize = 20
+        tapToShootLabel.fontColor = .white
+        tapToShootLabel.position = CGPoint(x: frame.midX, y: frame.midY)
+        addChild(tapToShootLabel)
+        currTutorialStep = .tapToShoot
+    }
+    
+    func endTutorial() {
+        DispatchQueue.main.async { [self] in
+            if isInTutorialMode {
+                tapToShootLabel.removeFromParent()
+                for (index, row) in rows.enumerated() {
+                    createNodeArr(addTo: &row.nodes, directionArr: &row.directions, type: row.type, row: index, score: row.score)
+                }
+                isInTutorialMode = false
+                UserDefaults.standard.set(true, forKey: localStorageTutorialKey)
+            }
+        }
+    }
+}
+
 
 class NodeWithScore: SKSpriteNode {
     var scoreOnCollision: Int = 0

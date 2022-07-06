@@ -4,8 +4,6 @@
 <dict>
 	<key>BaseURL</key>
 	<string>https://debug-api.triumpharcade.com</string>
-	<key>CFBundleIdentifier</key>
-	<string></string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

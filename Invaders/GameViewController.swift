@@ -142,7 +142,14 @@ class GameViewController: UIViewController {
 // MARK: - Game lifecycle
 extension GameViewController {
     func startGame(rng: TriumphRNG? = nil, gameInterface: TriumphGameInterface? = nil, mode: GameMode = .practice) {
-        let scene = GameScene(size: view.bounds.size, delegate: self, rng: rng, gameInterface: gameInterface, mode: mode)
+        let scene = GameScene(
+            size: view.bounds.size,
+            delegate: self,
+            rng: rng,
+            gameInterface: gameInterface,
+            mode: mode,
+            shouldShowTutorial: !UserDefaults.standard.bool(forKey: localStorageTutorialKey)
+        )
         gameView.showsFPS = false
         gameView.showsNodeCount = false
         gameView.ignoresSiblingOrder = true
