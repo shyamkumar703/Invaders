@@ -25,6 +25,8 @@ class GameViewController: UIViewController {
     var playerLooper: AVPlayerLooper?
     var playerLayer: AVPlayerLayer?
     
+    var resumeAlert: UIAlertController?
+    
     lazy var actionStackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -209,6 +211,7 @@ extension GameViewController {
 extension GameViewController: GameDelegate {
     func gameFinished() {
         playerLayer?.frame = self.view.frame
+        resumeAlert?.dismiss(animated: true)
         UIView.animate(
             withDuration: 1,
             animations: {
@@ -252,6 +255,34 @@ extension GameViewController: TriumphSDKDelegate {
     }
     
     func triumphRequestsDidPause(timeLeft: Int) {
+        if let resumeAlert = resumeAlert {
+            gameView.isPaused = true
+            resumeAlert.message = "Tap resume in \(timeLeft) seconds or forfeit"
+        } else {
+            gameView.isPaused = true
+            resumeAlert = UIAlertController(
+                title: "Game Interrupted",
+                message: "Tap resume in \(timeLeft) seconds or forfeit",
+                preferredStyle: .alert
+            )
+            
+            guard let resumeAlert = resumeAlert else { return }
+            
+            resumeAlert.addAction(
+                UIAlertAction(
+                    title: "Resume",
+                    style: .cancel,
+                    handler: { _ in
+                        resumeAlert.dismiss(animated: true)
+                        self.gameView.isPaused = false
+                        TriumphSDK.resumeGame()
+                        self.resumeAlert = nil
+                    }
+                )
+            )
+            
+            present(resumeAlert, animated: true)
+        }
     }
     
     func triumphRequestsDidGameOver() {
