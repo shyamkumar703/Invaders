@@ -71,6 +71,7 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
         TriumphSDK.delegate = self
         setupVideo()
         addVideoObservers()
@@ -117,6 +118,7 @@ class GameViewController: UIViewController {
         self.playerLooper = AVPlayerLooper(player: queuePlayer, templateItem: playerItem)
         
         self.playerLayer = AVPlayerLayer(player: queuePlayer)
+        playerLayer?.backgroundColor = UIColor.black.cgColor
         self.playerLayer?.videoGravity = .resizeAspectFill
         guard let playerLayer = self.playerLayer else { return }
         

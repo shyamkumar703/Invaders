@@ -22,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         let center = UNUserNotificationCenter.current()
         center.delegate = self
-        TriumphSDK.configure(gameId: "brickbreaker")
+        TriumphSDK.configure(gameId: "invaders")
+        TriumphSDK.gameTitle = "Invaders"
         TriumphSDK.scoreDecimalPoints = .zero
         TriumphSDK.merchantId = "merchant.com.shyamkumar.test"
         return true
