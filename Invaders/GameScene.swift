@@ -87,6 +87,7 @@ class GameScene: SKScene {
     var currentIndex = 0
     
     var timer: Timer?
+    var isInStartGameWaitingPeriod: Bool = true
     
     // MARK: - Score
     var score = 0
@@ -115,7 +116,6 @@ class GameScene: SKScene {
     var levelUpSound: SKAction { RespectfulSKAction.playSoundFileNamed("levelUp.wav", waitForCompletion: false) }
     var playerShootSound: SKAction { RespectfulSKAction.playSoundFileNamed("playerShoot.wav", waitForCompletion: false) }
     var enemyHitSound: SKAction { RespectfulSKAction.playSoundFileNamed("enemyHit.wav", waitForCompletion: false) }
-//    var backgroundMusic: SKAction { SKAction.playSoundFileNamed("music.wav", waitForCompletion: true) }
     var reloadSound: SKAction { RespectfulSKAction.playSoundFileNamed("reload.wav", waitForCompletion: false) }
     var enemyShootSound: SKAction { RespectfulSKAction.playSoundFileNamed("enemyShoot.wav", waitForCompletion: false) }
     var backgroundMusic: SKAudioNode?
@@ -237,6 +237,17 @@ class GameScene: SKScene {
             }
             directionArr.append(.right)
         }
+        
+        if isInStartGameWaitingPeriod {
+            run(
+                SKAction.sequence([
+                    SKAction.wait(forDuration: 0.6),
+                    SKAction.run {
+                        self.isInStartGameWaitingPeriod = false
+                    }
+                ])
+            )
+        }
     }
     
     func addPlayerBitMaskTo(node: NodeWithScore) {
@@ -308,6 +319,7 @@ class GameScene: SKScene {
     }
     
     func createAndLaunchEnemyBullet(startPoint: CGPoint) {
+        guard !isInStartGameWaitingPeriod else { return }
         let node = SKShapeNode(circleOfRadius: 4)
         node.fillColor = .green
         node.strokeColor = .clear
@@ -442,6 +454,7 @@ class GameScene: SKScene {
         enemy.run(
             SKAction.sequence(
                 [
+                    SKAction.changeVolume(to: 1, duration: 0),
                     enemyHitSound,
                     SKAction.scale(by: 0, duration: 0.1),
                     SKAction.removeFromParent(),
