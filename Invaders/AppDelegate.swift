@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TriumphSDK.gameTitle = "Invaders"
         TriumphSDK.scoreDecimalPoints = .zero
         TriumphSDK.merchantId = "merchant.com.shyamkumar.test"
+        TriumphSDK.gameAppIcon = "invaders_logo"
         return true
     }
 
