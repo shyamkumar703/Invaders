@@ -9,6 +9,7 @@ import TriumphSDK
 import CoreMotion
 import SpriteKit
 import GameplayKit
+import AVFAudio
 
 let localStorageTutorialKey: String = "hasSeenTutorial"
 
@@ -108,6 +109,21 @@ class GameScene: SKScene {
     var tiltInstructionLabel = SKLabelNode(fontNamed: "Public Pixel")
     var tapToShootLabel = SKLabelNode(fontNamed: "Public Pixel")
     
+    // MARK: - Sound actions
+    var explosionSound: SKAction { RespectfulSKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false) }
+    var gameOverSound: SKAction { RespectfulSKAction.playSoundFileNamed("gameOver.wav", waitForCompletion: true) }
+    var levelUpSound: SKAction { RespectfulSKAction.playSoundFileNamed("levelUp.wav", waitForCompletion: false) }
+    var playerShootSound: SKAction { RespectfulSKAction.playSoundFileNamed("playerShoot.wav", waitForCompletion: false) }
+    var enemyHitSound: SKAction { RespectfulSKAction.playSoundFileNamed("enemyHit.wav", waitForCompletion: false) }
+//    var backgroundMusic: SKAction { SKAction.playSoundFileNamed("music.wav", waitForCompletion: true) }
+    var reloadSound: SKAction { RespectfulSKAction.playSoundFileNamed("reload.wav", waitForCompletion: false) }
+    var enemyShootSound: SKAction { RespectfulSKAction.playSoundFileNamed("enemyShoot.wav", waitForCompletion: false) }
+    var backgroundMusic: SKAudioNode?
+    
+    // MARK: - Haptics
+    var generator = UIImpactFeedbackGenerator(style: .heavy)
+    var notificationGenerator = UINotificationFeedbackGenerator()
+    
     convenience init(
         size: CGSize,
         delegate: GameDelegate,
@@ -122,6 +138,11 @@ class GameScene: SKScene {
         self.gameInterface = gameInterface
         self.mode = mode
         self.isInTutorialMode = shouldShowTutorial
+    }
+    
+    deinit {
+        backgroundMusic?.run(SKAction.stop())
+        backgroundMusic?.removeFromParent()
     }
     
     override func didMove(to view: SKView) {
@@ -165,6 +186,32 @@ class GameScene: SKScene {
             }
         } else {
             showTutorial()
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(musicStatusChanged), name: AVAudioSession.silenceSecondaryAudioHintNotification, object: nil)
+    }
+    
+    func createBackgroundMusic() {
+        if let musicURL = Bundle.main.url(forResource: "music", withExtension: "wav"),
+           !AVAudioSession.sharedInstance().isOtherAudioPlaying {
+            backgroundMusic = SKAudioNode(url: musicURL)
+            guard let backgroundMusic = backgroundMusic else {
+                return
+            }
+            addChild(backgroundMusic)
+        }
+    }
+    
+    @objc func musicStatusChanged() {
+        if AVAudioSession.sharedInstance().isOtherAudioPlaying {
+            guard let backgroundMusic = backgroundMusic else { return }
+            backgroundMusic.run(SKAction.stop())
+        } else {
+            if let backgroundMusic = backgroundMusic {
+                backgroundMusic.run(SKAction.play())
+            } else {
+                createBackgroundMusic()
+            }
         }
     }
     
@@ -232,8 +279,13 @@ class GameScene: SKScene {
     func createAndLaunchBullet(startPoint: CGPoint) {
         if let currUserBullet = currUserBullet,
            currUserBullet.parent != nil {
+            notificationGenerator.prepare()
+            notificationGenerator.notificationOccurred(.error)
+            run(reloadSound)
             return
         }
+        generator.prepare()
+        generator.impactOccurred(intensity: 0.3)
         let node = SKShapeNode(circleOfRadius: 4)
         node.fillColor = .red
         node.strokeColor = .clear
@@ -243,10 +295,13 @@ class GameScene: SKScene {
         currUserBullet = node
         node.run(
             SKAction.sequence([
+                playerShootSound,
                 SKAction.moveTo(y: size.height * yMultiplierStart, duration: 1),
                 SKAction.removeFromParent(),
-                SKAction.run {
-                    self.endTutorial()
+                SKAction.run { [self] in
+                    if isInTutorialMode && currTutorialStep == .tapToShoot {
+                        endTutorial()
+                    }
                 }
             ])
         )
@@ -259,7 +314,7 @@ class GameScene: SKScene {
         node.position = startPoint
         addEnemyBulletBitMaskTo(node: node)
         addChild(node)
-        node.run(SKAction.sequence([SKAction.moveTo(y: size.height * 0.1, duration: 1), SKAction.removeFromParent()]))
+        node.run(SKAction.sequence([enemyShootSound, SKAction.moveTo(y: size.height * 0.1, duration: 1), SKAction.removeFromParent()]))
     }
     
     func showNewWaveLabel() {
@@ -270,7 +325,7 @@ class GameScene: SKScene {
         waveLabel.position = CGPoint(x: frame.midX, y: frame.midY)
         waveLabel.text = "WAVE<\(currentWave)>"
         self.addChild(waveLabel)
-        waveLabel.run(SKAction.sequence([SKAction.wait(forDuration: 2), SKAction.removeFromParent(), SKAction.run(respawnEnemiesAndIncreaseSpeed)]))
+        waveLabel.run(SKAction.sequence([levelUpSound, SKAction.wait(forDuration: 2), SKAction.removeFromParent(), SKAction.run(respawnEnemiesAndIncreaseSpeed)]))
 
     }
     
@@ -305,7 +360,8 @@ class GameScene: SKScene {
                 let location = touch.location(in: self)
                 let touchedNode = atPoint(location)
                 if touchedNode.name == playAgainButtonName {
-                    UIImpactFeedbackGenerator().impactOccurred(intensity: 1)
+                    generator.prepare()
+                    generator.impactOccurred(intensity: 1)
                     resetAndRestartGame()
                 }
             }
@@ -386,6 +442,7 @@ class GameScene: SKScene {
         enemy.run(
             SKAction.sequence(
                 [
+                    enemyHitSound,
                     SKAction.scale(by: 0, duration: 0.1),
                     SKAction.removeFromParent(),
                     SKAction.run { [self] in
@@ -412,6 +469,7 @@ class GameScene: SKScene {
             timer?.invalidate()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
                 player.run(SKAction.sequence([
+                    explosionSound,
                     SKAction.wait(forDuration: 0.1),
                     SKAction.repeat(
                         SKAction.sequence(
@@ -424,6 +482,7 @@ class GameScene: SKScene {
                     ),
                     SKAction.wait(forDuration: 0.3),
                     SKAction.run(removeAllEnemies),
+                    gameOverSound,
                     SKAction.removeFromParent()
                 ]))
             }
@@ -439,6 +498,8 @@ class GameScene: SKScene {
             for node in row.nodes {
                 if node.parent != nil {
                     node.removeFromParent()
+                    generator.prepare()
+                    generator.impactOccurred()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         self.removeAllEnemies()
                     }
@@ -538,7 +599,8 @@ extension GameScene: SKPhysicsContactDelegate {
             if let enemy = firstBody.node as? NodeWithScore,
                let bullet = secondBody.node as? SKShapeNode {
                 bulletDidHitEnemy(bullet: bullet, enemy: enemy)
-                UIImpactFeedbackGenerator().impactOccurred(intensity: 1)
+                generator.prepare()
+                generator.impactOccurred(intensity: 1)
             }
         }
         
@@ -547,7 +609,8 @@ extension GameScene: SKPhysicsContactDelegate {
             if let enemyBullet = firstBody.node as? SKShapeNode,
                let player = secondBody.node as? NodeWithScore {
                 enemyBulletDidHitPlayer(bullet: enemyBullet, player: player)
-                UIImpactFeedbackGenerator().impactOccurred(intensity: 0.5)
+                generator.prepare()
+                generator.impactOccurred(intensity: 0.5)
             }
         }
         
@@ -564,14 +627,15 @@ extension GameScene: SKPhysicsContactDelegate {
                let enemyBullet = secondBody.node as? SKShapeNode {
                 bullet.removeFromParent()
                 enemyBullet.removeFromParent()
-                UIImpactFeedbackGenerator().impactOccurred(intensity: 0.5)
+                generator.prepare()
+                generator.impactOccurred(intensity: 0.5)
             }
         }
         
         if ((firstBody.categoryBitMask & PhysicsCategory.enemy != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.player != 0)) {
             if let player = secondBody.node as? NodeWithScore {
-                UIImpactFeedbackGenerator().impactOccurred(intensity: 1)
+                generator.impactOccurred()
                 enemyBulletDidHitPlayer(player: player)
             }
         }
@@ -622,4 +686,15 @@ extension GameScene {
 class NodeWithScore: SKSpriteNode {
     var scoreOnCollision: Int = 0
     var isHit: Bool = false
+}
+
+class RespectfulSKAction: SKAction {
+    override class func playSoundFileNamed(_ soundFile: String, waitForCompletion wait: Bool) -> SKAction {
+        let isMuted: Bool = AVAudioSession.sharedInstance().isOtherAudioPlaying
+        if !isMuted {
+            return super.playSoundFileNamed(soundFile, waitForCompletion: wait)
+        } else {
+            return SKAction.wait(forDuration: 0)
+        }
+    }
 }

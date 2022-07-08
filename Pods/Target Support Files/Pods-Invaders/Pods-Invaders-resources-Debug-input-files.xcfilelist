@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-Invaders/Pods-Invaders-resources.sh
+${PODS_CONFIGURATION_BUILD_DIR}/TriumphCommon/TriumphCommon_TriumphCommon.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/TriumphSDK/TriumphSDKResources.bundle

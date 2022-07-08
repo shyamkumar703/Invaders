@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		015306082874DF4200DF3C45 /* invaders.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 015306072874DF4200DF3C45 /* invaders.mp4 */; };
 		01666C402874F48A00EC0A66 /* debug_GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01666C3F2874F48A00EC0A66 /* debug_GoogleService-Info.plist */; };
+		01D0428C2878A173007ED285 /* playerShoot.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D042862878A170007ED285 /* playerShoot.wav */; };
+		01D0428D2878A173007ED285 /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D042872878A171007ED285 /* explosion.wav */; };
+		01D0428E2878A173007ED285 /* gameOver.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D042882878A171007ED285 /* gameOver.wav */; };
+		01D042902878A173007ED285 /* levelUp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D0428A2878A173007ED285 /* levelUp.wav */; };
+		01D042952878B003007ED285 /* enemyHit.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D042942878B003007ED285 /* enemyHit.wav */; };
+		01D042972878B118007ED285 /* reload.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D042962878B118007ED285 /* reload.wav */; };
+		01D042992878B1B4007ED285 /* enemyShoot.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D042982878B1B4007ED285 /* enemyShoot.wav */; };
+		01D0429B2878B433007ED285 /* music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D0429A2878B433007ED285 /* music.wav */; };
 		01D9E7FD2867789200620289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E7FC2867789200620289 /* AppDelegate.swift */; };
 		01D9E8012867789200620289 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 01D9E8002867789200620289 /* Actions.sks */; };
 		01D9E8032867789200620289 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8022867789200620289 /* GameScene.swift */; };
@@ -44,6 +52,14 @@
 		015306072874DF4200DF3C45 /* invaders.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = invaders.mp4; sourceTree = "<group>"; };
 		01666C3D2874F2C000EC0A66 /* Invaders.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Invaders.entitlements; sourceTree = "<group>"; };
 		01666C3F2874F48A00EC0A66 /* debug_GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "debug_GoogleService-Info.plist"; sourceTree = "<group>"; };
+		01D042862878A170007ED285 /* playerShoot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = playerShoot.wav; sourceTree = "<group>"; };
+		01D042872878A171007ED285 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
+		01D042882878A171007ED285 /* gameOver.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = gameOver.wav; sourceTree = "<group>"; };
+		01D0428A2878A173007ED285 /* levelUp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = levelUp.wav; sourceTree = "<group>"; };
+		01D042942878B003007ED285 /* enemyHit.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = enemyHit.wav; sourceTree = "<group>"; };
+		01D042962878B118007ED285 /* reload.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = reload.wav; sourceTree = "<group>"; };
+		01D042982878B1B4007ED285 /* enemyShoot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = enemyShoot.wav; sourceTree = "<group>"; };
+		01D0429A2878B433007ED285 /* music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = music.wav; sourceTree = "<group>"; };
 		01D9E7F92867789200620289 /* Invaders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Invaders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01D9E7FC2867789200620289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01D9E8002867789200620289 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -97,6 +113,21 @@
 			path = Google_Properties;
 			sourceTree = "<group>";
 		};
+		01D042852878A165007ED285 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				01D0429A2878B433007ED285 /* music.wav */,
+				01D042982878B1B4007ED285 /* enemyShoot.wav */,
+				01D042962878B118007ED285 /* reload.wav */,
+				01D042942878B003007ED285 /* enemyHit.wav */,
+				01D042872878A171007ED285 /* explosion.wav */,
+				01D042882878A171007ED285 /* gameOver.wav */,
+				01D0428A2878A173007ED285 /* levelUp.wav */,
+				01D042862878A170007ED285 /* playerShoot.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		01D9E7F02867789200620289 = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +153,7 @@
 		01D9E7FB2867789200620289 /* Invaders */ = {
 			isa = PBXGroup;
 			children = (
+				01D042852878A165007ED285 /* Sounds */,
 				01666C3E2874F47E00EC0A66 /* Google_Properties */,
 				01666C3D2874F2C000EC0A66 /* Invaders.entitlements */,
 				015306072874DF4200DF3C45 /* invaders.mp4 */,
@@ -279,13 +311,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01D042952878B003007ED285 /* enemyHit.wav in Resources */,
+				01D0428D2878A173007ED285 /* explosion.wav in Resources */,
 				01D9E8082867789200620289 /* Main.storyboard in Resources */,
 				01D9E8302867DBB400620289 /* Pixel.ttf in Resources */,
+				01D042902878A173007ED285 /* levelUp.wav in Resources */,
 				01D9E80A2867789300620289 /* Assets.xcassets in Resources */,
+				01D0428E2878A173007ED285 /* gameOver.wav in Resources */,
 				015306082874DF4200DF3C45 /* invaders.mp4 in Resources */,
 				01666C402874F48A00EC0A66 /* debug_GoogleService-Info.plist in Resources */,
+				01D0428C2878A173007ED285 /* playerShoot.wav in Resources */,
 				01D9E80D2867789300620289 /* LaunchScreen.storyboard in Resources */,
+				01D0429B2878B433007ED285 /* music.wav in Resources */,
 				01D9E8012867789200620289 /* Actions.sks in Resources */,
+				01D042992878B1B4007ED285 /* enemyShoot.wav in Resources */,
+				01D042972878B118007ED285 /* reload.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,7 +606,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Invaders/Invaders.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = PM79C3BXFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Invaders/Info.plist;
@@ -585,7 +625,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shyamkumar.TriumphInvaders;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -602,7 +642,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Invaders/Invaders.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = PM79C3BXFD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Invaders/Info.plist;
@@ -621,7 +661,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shyamkumar.TriumphInvaders;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

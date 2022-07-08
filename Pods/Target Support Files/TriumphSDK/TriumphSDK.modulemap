@@ -1,0 +1,6 @@
+framework module TriumphSDK {
+  umbrella header "TriumphSDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

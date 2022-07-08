@@ -1,0 +1,56 @@
+// Copyright © TriumphSDK. All rights reserved.
+
+"btn_close_title" = "Close";
+"btn_ok_title" = "Ok";
+"btn_confirm_title" = "Confirm";
+"btn_settings_title" = "Settings";
+"btn_continue_title" = "Continue";
+"btn_agree_title" = "Agree";
+"btn_try_again_title" = "Try Again";
+"btn_back_title" = "Back";
+"btn_cancel_title" = "Cancel";
+"btn_show_all_title" = "Show All";
+"btn_show_less_title" = "Hide All";
+
+"lbl_error_title" = "Error";
+"lbl_game_title" = "The Game";
+
+"msg_err_unknown" = "We encountered an unknown error";
+"msg_err_location_check" = "We couldn't check your location. Please try again later.";
+
+"signup_lbl_givenname" = "First Name";
+"signup_lbl_lastname" = "Last Name";
+"signup_lbl_username" = "Username";
+"signup_lbl_referral" = "Referral code (optional)";
+"signup_lbl_profile_photo_title" = "Tap to change";
+
+"phoneotp_phone_title" = "My number is";
+"phoneotp_phone_number_placeholder" = "310-222-2222";
+"phoneotp_code_title" = "We texted you a code";
+"phoneotp_change_number_button_title" = "Change number";
+"phoneotp_code_placeholder" = "000000";
+"phoneotp_send_code_title" = "Send Code";
+"phoneotp_charm_rd_times" = "%drd time's a charm";
+"phoneotp_charm_th_times" = "%dth time's a charm";
+"phoneotp_phone_number_err_title" = "Phone Number error";
+"phoneotp_phone_number_err_msg" = "Please enter a valid number";
+"phoneotp_wrong_code_title" = "Incorrect code. Please try again.";
+"phoneotp_wrong_code_msg" = "Please enter the code we sent you";
+"phoneotp_code_attempts_exceeded_title" = "Code Attempts Exceeded";
+"phoneotp_code_attempts_exceeded_msg" = "Please try again later.";
+"phoneotp_us_number_only_msg" = "We are only accepting US Numbers at this time";
+
+"age_title" = "What’s your birthday?";
+"age_subtitle" = "Must be 18+ to play";
+"age_less18_alert_title" = "We're Sorry!";
+"age_less18_alert_msg" = "You must be 18+ to play Triumph. We will see you then!";
+"age_terms_alert_title" = "Terms of Use";
+"age_terms_alert_msg" = "I agree to Triumph's Terms and Conditions and Privacy Policy (available below) and attest to the veracity of all information I've provided. ";
+"age_confirmation_alert_title" = "18+ Required";
+"age_confirmation_alert_msg" = "Your identity and age will be verified via an ID scan before you can withdraw your winnings. \n\n INCORRECT INFORMATION WILL RESULT IN THE AUTOMATIC FORFEITURE OF YOUR BALANCE.";
+
+"location_lbl_title_part_orange" = "Triumph";
+"location_lbl_title_and_counting" = "And counting...";
+"location_btn_confirm_location" = "Confirm location";
+
+"terms_of_use" = "I agree to Triumph's Terms and Conditions and Privacy Policy. Apple is not a sponsor of any contest provided herein.\n";

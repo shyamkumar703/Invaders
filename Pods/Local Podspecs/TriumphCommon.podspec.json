@@ -1,0 +1,81 @@
+{
+  "name": "TriumphCommon",
+  "version": "0.1.0",
+  "summary": "Triumph Common Modules.",
+  "homepage": "https://github.com/triumpharcade/triumph-common",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE.md"
+  },
+  "authors": {
+    "maxkalik": "maksim@triumpharcade.com"
+  },
+  "source": {
+    "git": "https://github.com/triumpharcade/triumph-common.git"
+  },
+  "swift_versions": "5.3",
+  "platforms": {
+    "ios": "14.0"
+  },
+  "source_files": "Sources/TriumphCommon/**/*.{swift}",
+  "resource_bundles": {
+    "TriumphCommon_TriumphCommon": [
+      "Sources/TriumphCommon/Resources/**/*.{storyboard,xib,xcassets,json,png,lproj,mp4,geojson}"
+    ]
+  },
+  "static_framework": true,
+  "dependencies": {
+    "Firebase/Analytics": [
+
+    ],
+    "Firebase/AppCheck": [
+
+    ],
+    "Firebase/Crashlytics": [
+
+    ],
+    "Firebase/DynamicLinks": [
+
+    ],
+    "Firebase/Storage": [
+
+    ],
+    "Firebase/Messaging": [
+
+    ],
+    "Firebase/Functions": [
+
+    ],
+    "Firebase/Firestore": [
+
+    ],
+    "Firebase/Auth": [
+
+    ],
+    "Firebase/Performance": [
+
+    ],
+    "ReachabilitySwift": [
+
+    ],
+    "TweeTextField": [
+
+    ],
+    "PhoneNumberKit": [
+
+    ],
+    "CropViewController": [
+
+    ],
+    "SDWebImage": [
+
+    ],
+    "Intercom": [
+
+    ],
+    "GEOSwift": [
+
+    ]
+  },
+  "swift_version": "5.3"
+}

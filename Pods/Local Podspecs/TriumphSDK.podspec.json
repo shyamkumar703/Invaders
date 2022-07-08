@@ -1,0 +1,89 @@
+{
+  "name": "TriumphSDK",
+  "version": "1.1.0",
+  "summary": "Enable real money tournaments in your game.",
+  "description": "\"Enable real money tournaments in your game. We handle payment, matching, arbitration, and compliance. You handle the game.\"",
+  "homepage": "https://github.com/triumpharcade/triumph-sdk",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "jgeller1": "jaredgeller@me.com"
+  },
+  "source": {
+    "git": "https://github.com/triumpharcade/triumph-sdk.git",
+    "tag": "1.1.0"
+  },
+  "platforms": {
+    "ios": "14.0"
+  },
+  "swift_versions": "5.7",
+  "source_files": "Source/**/*.swift",
+  "resource_bundles": {
+    "TriumphSDKResources": [
+      "Source/Resources/*"
+    ]
+  },
+  "static_framework": true,
+  "dependencies": {
+    "FBSDKCoreKit": [
+      "~> 8.0.0"
+    ],
+    "FBSDKLoginKit": [
+      "~> 8.0.0"
+    ],
+    "FBSDKShareKit": [
+      "~> 8.0.0"
+    ],
+    "Firebase/Analytics": [
+
+    ],
+    "Firebase/AppCheck": [
+
+    ],
+    "Firebase/Crashlytics": [
+
+    ],
+    "Firebase/Storage": [
+
+    ],
+    "Firebase/Messaging": [
+
+    ],
+    "Firebase/Firestore": [
+
+    ],
+    "Firebase/Performance": [
+
+    ],
+    "Firebase/DynamicLinks": [
+
+    ],
+    "Firebase/Auth": [
+
+    ],
+    "GEOSwift": [
+
+    ],
+    "Frames": [
+      "~> 3.0"
+    ],
+    "TweeTextField": [
+
+    ],
+    "CropViewController": [
+
+    ],
+    "Intercom": [
+
+    ],
+    "SDWebImage": [
+
+    ],
+    "TriumphCommon": [
+
+    ]
+  },
+  "swift_version": "5.7"
+}

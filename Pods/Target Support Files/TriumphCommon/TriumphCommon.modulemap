@@ -1,0 +1,6 @@
+framework module TriumphCommon {
+  umbrella header "TriumphCommon-umbrella.h"
+
+  export *
+  module * { export * }
+}
