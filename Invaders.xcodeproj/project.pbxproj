@@ -17,6 +17,7 @@
 		01D042972878B118007ED285 /* reload.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D042962878B118007ED285 /* reload.wav */; };
 		01D042992878B1B4007ED285 /* enemyShoot.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D042982878B1B4007ED285 /* enemyShoot.wav */; };
 		01D0429B2878B433007ED285 /* music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 01D0429A2878B433007ED285 /* music.wav */; };
+		01D0429D2878DF8D007ED285 /* prod_GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01D0429C2878DF8D007ED285 /* prod_GoogleService-Info.plist */; };
 		01D9E7FD2867789200620289 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E7FC2867789200620289 /* AppDelegate.swift */; };
 		01D9E8012867789200620289 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 01D9E8002867789200620289 /* Actions.sks */; };
 		01D9E8032867789200620289 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D9E8022867789200620289 /* GameScene.swift */; };
@@ -60,6 +61,7 @@
 		01D042962878B118007ED285 /* reload.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = reload.wav; sourceTree = "<group>"; };
 		01D042982878B1B4007ED285 /* enemyShoot.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = enemyShoot.wav; sourceTree = "<group>"; };
 		01D0429A2878B433007ED285 /* music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = music.wav; sourceTree = "<group>"; };
+		01D0429C2878DF8D007ED285 /* prod_GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "prod_GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01D9E7F92867789200620289 /* Invaders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Invaders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01D9E7FC2867789200620289 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01D9E8002867789200620289 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				01666C3F2874F48A00EC0A66 /* debug_GoogleService-Info.plist */,
+				01D0429C2878DF8D007ED285 /* prod_GoogleService-Info.plist */,
 			);
 			path = Google_Properties;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 			files = (
 				01D042952878B003007ED285 /* enemyHit.wav in Resources */,
 				01D0428D2878A173007ED285 /* explosion.wav in Resources */,
+				01D0429D2878DF8D007ED285 /* prod_GoogleService-Info.plist in Resources */,
 				01D9E8082867789200620289 /* Main.storyboard in Resources */,
 				01D9E8302867DBB400620289 /* Pixel.ttf in Resources */,
 				01D042902878A173007ED285 /* levelUp.wav in Resources */,

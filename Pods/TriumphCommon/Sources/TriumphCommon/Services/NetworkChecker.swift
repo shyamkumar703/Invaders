@@ -41,7 +41,7 @@ final class NetworkCheckerService: NetworkChecker {
     private(set) var currentConnectionType: NWInterface.InterfaceType?
     let notificationCenter = NotificationCenter.default
     
-    private var testUrl: String = "http://www.google.com"
+    private var testUrl: String = "https://www.triumpharcade.com"
 
     init(dependencies: Dependencies) {
         self.dependencies = dependencies

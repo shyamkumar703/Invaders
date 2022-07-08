@@ -272,29 +272,24 @@ private extension PhoneOTPViewModelImplementation {
                 await self?.signIn()
             } catch let error as NSError {
                 await MainActor.run { [weak self] in
-//                    switch AuthErrorCode(rawValue: error.code) {
-//                    case .tooManyRequests:
-//                        self?.dependencies.swiftMessage.showStatusLineErrorMessage(
-//                            localizedString("Try again in 5 minutes")
-//                        )
-//                    case .invalidVerificationCode:
-//                        self?.dependencies.swiftMessage.showStatusLineErrorMessage(
-//                            localizedString("phoneotp_wrong_code_title")
-//                        )
-//                    default:
-//                        self?.dependencies.swiftMessage.showStatusLineErrorMessage(
-//                            localizedString("Something went wrong. Try again.")
-//                        )
-//                    }
+                    switch AuthErrorCode(_nsError: error).code {
+                    case .tooManyRequests:
+                        self?.dependencies.swiftMessage.showStatusLineErrorMessage(
+                            localizedString("Try again in 5 minutes")
+                        )
+                    case .invalidVerificationCode:
+                        self?.dependencies.swiftMessage.showStatusLineErrorMessage(
+                            localizedString("phoneotp_wrong_code_title")
+                        )
+                    default:
+                        self?.dependencies.swiftMessage.showStatusLineErrorMessage(
+                            localizedString("Something went wrong. Try again.")
+                        )
+                    }
                     self?.viewDelegate?.hideLoadingProcess()
                     self?.viewDelegate?.phoneOTPerror(.invalidCode)
                     self?.dependencies.logger.log(error.localizedDescription, .error)
-                    
-                    // TODO: - Remove it if AuthErrorCode implemented
-                    self?.dependencies.swiftMessage.showStatusLineErrorMessage(
-                         localizedString("phoneotp_wrong_code_title")
-                    )
-                    
+
                     self?.reset()
                 }
             }

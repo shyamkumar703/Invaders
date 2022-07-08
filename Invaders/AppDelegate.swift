@@ -5,6 +5,7 @@
 //  Created by Shyam Kumar on 6/25/22.
 //
 import FirebaseAuth
+import FirebaseMessaging
 import TriumphSDK
 import UIKit
 
@@ -51,35 +52,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // Handles user notifications delegate
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-    }
-
-    // Handles notifications in foreground
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // completionHandler(.alert)
-    }
-    
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) { }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Auth.auth().setAPNSToken(deviceToken, type: AuthAPNSTokenType.unknown)
-
-        //Auth.auth().setAPNSToken(deviceToken, type: AuthAPNSTokenType.sandbox)
+        Messaging.messaging().apnsToken = deviceToken
+        
+        // Auth.auth().setAPNSToken(deviceToken, type: AuthAPNSTokenType.sandbox)
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
         print("== \(#function): \(token)")
         print("== \(#function): registered")
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if Auth.auth().canHandleNotification(userInfo) {
+    func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error) {
+            print("== \(#function): failed")
+        }
+    
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification notification: [AnyHashable : Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
+        print(notification)
+        if Auth.auth().canHandleNotification(notification) {
             completionHandler(.noData)
             return
         }
         completionHandler(.noData)
-    }
-    
-    func application( _ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-          print("== \(#function): failed")
     }
 }
 
